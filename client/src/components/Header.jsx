@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 export default function Header({ headerName }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
-
+  const pages = ["Profile", "Help", "SignIn", "SignUp"];
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -51,26 +51,16 @@ export default function Header({ headerName }) {
             </button>
             {dropdownOpen && (
               <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10">
-                <Link to="/profile">
-                  <a className="block px-4 py-2 text-mainColor hover:bg-gray-100">
-                    Profile
-                  </a>
-                </Link>
-                <Link to="/SignIn">
-                  <a className="block px-4 py-2 text-mainColor hover:bg-gray-100">
-                    Sign In
-                  </a>
-                </Link>
-                <Link to="/Help">
-                  <a className="block px-4 py-2 text-mainColor hover:bg-gray-100">
-                    Help
-                  </a>
-                </Link>
-                <Link to="/Settings">
-                  <a className="block px-4 py-2 text-mainColor hover:bg-gray-100">
-                    Settings
-                  </a>
-                </Link>
+                {pages.map((page) => (
+                  <Link to={`/${page}`}>
+                    <a
+                      key={page}
+                      className="block px-4 py-2 text-mainColor hover:bg-gray-100"
+                    >
+                      {page}
+                    </a>
+                  </Link>
+                ))}
               </div>
             )}
           </div>

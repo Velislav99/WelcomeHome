@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import logo from "../assets/logo.png";
 import { FaSearch, FaRegBell, FaUser } from "react-icons/fa";
 import { AiOutlineMessage } from "react-icons/ai";
@@ -36,7 +36,7 @@ export default function Header({ headerName }) {
             type="text"
             placeholder="Search"
             className="bg-transparent focus:outline-none w-12 sm:w-64"
-          ></input>
+          />
           <FaSearch className="text-gray-400 ml-2" />
         </form>
         <div className="flex items-center">

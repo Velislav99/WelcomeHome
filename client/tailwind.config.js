@@ -8,10 +8,11 @@ export default {
     extend: {
       fontFamily: {
         fredoka: ['Fredoka One', 'cursive'], // Add Fredoka One to the font family
+        lato: ['Lato', 'sans-serif'],
       },
       colors: {
         mainColor: '#3C239F', 
-        secondaryColor: '#F9A826',
+        secondaryColor: '#E2A3A3',
       },
     },
   },

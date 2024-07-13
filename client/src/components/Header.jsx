@@ -52,7 +52,7 @@ export default function Header({ headerName }) {
             {dropdownOpen && (
               <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10">
                 {pages.map((page) => (
-                  <Link to={`/${page}`}>
+                  <Link to={`/${page.toLocaleLowerCase()}`}>
                     <a
                       key={page}
                       className="block px-4 py-2 text-mainColor hover:bg-gray-100"

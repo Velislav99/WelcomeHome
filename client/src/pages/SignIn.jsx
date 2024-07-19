@@ -28,7 +28,7 @@ export default function SignIn() {
       const data = await res.json();
       if (data.success === false) {
         setLoading(false);
-        setError(data.message);
+        setError(data.message)
         return;
       }
       setLoading(false);

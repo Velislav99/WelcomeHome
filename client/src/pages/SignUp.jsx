@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Header from "../components/Header";
 import logo from "../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
+import OAuth from "../components/OAuth";
 
 export default function SignUp() {
   const [formData, setFormData] = useState({});
@@ -73,9 +74,12 @@ export default function SignUp() {
             id="password"
             onChange={handleChange}
           />
-          <button disabled = {loading} className="bg-mainColor text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80 w-48 mx-auto mt-7">
+          <div className="flex ">
+          <button disabled = {loading} className="bg-mainColor text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80 w-48 mx-auto m-3">
             {loading? "Loading..." : "Sign Up"}
           </button>
+          <OAuth />
+          </div>
         </form>
         <div className="flex mt-5 gap-2">
           <p className="text-mainColor font-fredoka">Have an account?</p>

@@ -2,12 +2,18 @@ import React, { useState } from "react";
 import Header from "../components/Header";
 import logo from "../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+} from "../redux/user/userSlice";
 
 export default function SignIn() {
   const [formData, setFormData] = useState({});
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const { error, loading } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -18,6 +24,7 @@ export default function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      dispatch(signInStart());
       const res = await fetch("/api/auth/signin", {
         method: "POST",
         headers: {
@@ -27,17 +34,13 @@ export default function SignIn() {
       });
       const data = await res.json();
       if (data.success === false) {
-        setLoading(false);
-        setError(data.message)
+        dispatch(signInFailure(data.message));
         return;
       }
-      setLoading(false);
-      setError(null);
+      dispatch(signInSuccess(data));
       navigate("/");
-      console.log(data);
-     
-    }catch (error){
-      setLoading(false);
+    } catch (error) {
+      dispatch(signInFailure(error.message));
     }
   };
 
@@ -53,7 +56,6 @@ export default function SignIn() {
           </h1>
         </div>
         <form onSubmit={handleSubmit} className="flex flex-col ">
-          
           <h2 className="text-secondaryColor text-2xl">Email</h2>
           <input
             type="email"
@@ -68,8 +70,11 @@ export default function SignIn() {
             id="password"
             onChange={handleChange}
           />
-          <button disabled = {loading} className="bg-mainColor text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80 w-48 mx-auto mt-7">
-            {loading? "Loading..." : "Sign In"}
+          <button
+            disabled={loading}
+            className="bg-mainColor text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80 w-48 mx-auto mt-7"
+          >
+            {loading ? "Loading..." : "Sign In"}
           </button>
         </form>
         <div className="flex mt-5 gap-2">

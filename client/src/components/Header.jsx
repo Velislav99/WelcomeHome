@@ -72,7 +72,9 @@ export default function Header({ headerName }) {
               )}
             </div>
           ) : (
-            <span className="text-mainColor font-fredoka">Sign In</span>
+            <Link to="/signin">
+              <span className="text-mainColor font-fredoka">Sign In</span>
+            </Link>
           )}
         </div>
       </div>

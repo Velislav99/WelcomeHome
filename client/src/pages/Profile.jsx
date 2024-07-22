@@ -6,7 +6,7 @@ export default function Profile() {
   const { currentUser } = useSelector((state) => state.user);
   return (
     <>
-      <Header headerName="Sign In" />
+      <Header headerName="Profile" />
       <div className="p3 max-w-lg mx-auto">
         <h1 className="text-3xl font-fredoka text-mainColor m-2 text-center">
           WelcomeHome

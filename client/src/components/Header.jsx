@@ -9,7 +9,7 @@ export default function Header({ headerName }) {
   const { currentUser } = useSelector((state) => state.user);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
-  const pages = ["Profile", "Help"];
+  const pages = ["Profile", "Home", "Help"];
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -25,14 +25,14 @@ export default function Header({ headerName }) {
   return (
     <header className="border-b border-secondaryColor shadow-sm shadow-gray-500">
       <div className="flex justify-between items-center p-3">
-        <Link to="/">
-          <div className="flex items-center">
+        <div className="flex items-center">
+          <Link to="/">
             <img src={logo} alt="Logo" className="h-10 w-10 mr-2" />
-            <h1 className="text-sm sm:text-xl flex flex-wrap">
-              <span className="text-mainColor font-fredoka">{headerName}</span>
-            </h1>
-          </div>
-        </Link>
+          </Link>
+          <h1 className="text-sm sm:text-xl flex flex-wrap">
+            <span className="text-mainColor font-fredoka">{headerName}</span>
+          </h1>
+        </div>
         <form className="flex items-center">
           <input
             type="text"
@@ -59,7 +59,7 @@ export default function Header({ headerName }) {
               {dropdownOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10">
                   {pages.map((page) => (
-                    <Link to={`/${page.toLocaleLowerCase()}`}>
+                    <Link to={page === "Home" ? "/" : `/${page.toLowerCase()}`}>
                       <a
                         key={page}
                         className="block px-4 py-2 text-mainColor hover:bg-gray-100"

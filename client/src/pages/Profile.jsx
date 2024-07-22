@@ -17,35 +17,35 @@ export default function Profile() {
             alt="Avatar"
             className="w-40 h-40 rounded-full mx-auto object-cover cursor-pointer"
           />
-          <li className="text-secondaryColor text-2xl">Username:</li>
+          <h2 className="text-secondaryColor text-2xl">Username:</h2>
           <input
             type="text"
             placeholder={currentUser?.username}
             className="border border-secondaryColor shadow-sm shadow-gray-500 p-3 rounded-lg mb-4"
             id="username"
           />
-          <li className="text-secondaryColor text-2xl">Email:</li>
+          <h2 className="text-secondaryColor text-2xl">Email:</h2>
           <input
             type="email"
             placeholder={currentUser?.email}
             className="border border-secondaryColor shadow-sm shadow-gray-500 p-3 rounded-lg mb-4"
             id="email"
           />
-          <li className="text-secondaryColor text-2xl">City:</li>
+          <h2 className="text-secondaryColor text-2xl">City:</h2>
           <input
             type="text"
             placeholder={currentUser?.city}
             className="border border-secondaryColor shadow-sm shadow-gray-500 p-3 rounded-lg mb-4"
             id="city"
           />
-          <li className="text-secondaryColor text-2xl">About me:</li>
+          <h2 className="text-secondaryColor text-2xl">About me:</h2>
           <input
             type="text"
             placeholder={currentUser?.aboutme}
             className="border border-secondaryColor shadow-sm shadow-gray-500 p-3 rounded-lg mb-4"
             id="aboutme"
           />
-          <li className="text-secondaryColor text-2xl">Password</li>
+          <h2 className="text-secondaryColor text-2xl">Password</h2>
           <input
             type="text"
             className="border border-secondaryColor shadow-sm shadow-gray-500 p-3 rounded-lg mb-4"
@@ -56,7 +56,7 @@ export default function Profile() {
               Update
             </button>
             <button className="flex justify-center items-center p-3 rounded-lg bg-white border-2 border-mainColor m-3 w-48 mx-auto text-mainColor">
-              Create Listing
+              Create H2sting
             </button>
           </div>
         </form>

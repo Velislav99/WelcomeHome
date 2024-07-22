@@ -17,36 +17,28 @@ export default function Profile() {
             alt="Avatar"
             className="w-40 h-40 rounded-full mx-auto object-cover cursor-pointer"
           />
-          <li className="text-secondaryColor text-2xl">
-            Username:
-          </li>
+          <li className="text-secondaryColor text-2xl">Username:</li>
           <input
             type="text"
             placeholder={currentUser?.username}
             className="border border-secondaryColor shadow-sm shadow-gray-500 p-3 rounded-lg mb-4"
             id="username"
           />
-          <li className="text-secondaryColor text-2xl">
-            Email: 
-          </li>
+          <li className="text-secondaryColor text-2xl">Email:</li>
           <input
             type="email"
             placeholder={currentUser?.email}
             className="border border-secondaryColor shadow-sm shadow-gray-500 p-3 rounded-lg mb-4"
             id="email"
           />
-          <li className="text-secondaryColor text-2xl">
-            City: 
-          </li>
+          <li className="text-secondaryColor text-2xl">City:</li>
           <input
             type="text"
             placeholder={currentUser?.city}
             className="border border-secondaryColor shadow-sm shadow-gray-500 p-3 rounded-lg mb-4"
             id="city"
           />
-          <li className="text-secondaryColor text-2xl">
-            About me: 
-          </li>
+          <li className="text-secondaryColor text-2xl">About me:</li>
           <input
             type="text"
             placeholder={currentUser?.aboutme}

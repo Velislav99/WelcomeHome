@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "../components/Header";
-import { useSelector } from "react-redux";
+import { useSelector } from "react-redux"
 
 export default function Profile() {
   const { currentUser } = useSelector((state) => state.user);

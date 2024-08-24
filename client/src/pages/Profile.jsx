@@ -1,9 +1,57 @@
-import React from "react";
+import { useEffect, useRef, useState } from "react";
 import Header from "../components/Header";
-import { useSelector } from "react-redux"
+import { useSelector } from "react-redux";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
+import { app } from "../firebase";
 
 export default function Profile() {
   const { currentUser } = useSelector((state) => state.user);
+  const fileRef = useRef(null);
+  const [file, setFile] = useState(undefined);
+  const [filePercantage, setFilePercentage] = useState(0);
+  const [fileUploadError, setFileUploadError] = useState(false);
+  const [formData, setFormData] = useState({});
+
+  useEffect(() => {
+    if (file) {
+      handleFileUpload();
+    }
+  }, [file]);
+
+  const handleFileUpload = () => {
+    if (!file) return;
+
+    const storage = getStorage(app);
+    const fileName = new Date().getTime() + file.name;
+    const storageRef = ref(storage, fileName);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        setFilePercentage(Math.round(progress));
+      },
+      (error) => {
+        setFileUploadError(true);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          setFormData((prevFormData) => ({
+            ...prevFormData,
+            avatar: downloadURL,
+          }));
+        });
+      }
+    );
+  };
+
   return (
     <>
       <Header headerName="Profile" />
@@ -12,11 +60,32 @@ export default function Profile() {
           WelcomeHome
         </h1>
         <form className="flex flex-col ">
+          <input
+            onChange={(e) => setFile(e.target.files[0])}
+            type="file"
+            ref={fileRef}
+            hidden
+            accept="image/*"
+          />
           <img
-            src={currentUser?.avatar}
+            onClick={() => fileRef.current.click()}
+            src={formData.avatar || currentUser?.avatar}
             alt="Avatar"
             className="w-40 h-40 rounded-full mx-auto object-cover cursor-pointer"
           />
+          <p className="text-sm self-center">
+            {fileUploadError ? (
+              <span className="text-red-500">Something went wrong *Image must be under 2MB or a valid image file*</span>
+            ) : filePercantage > 0 && filePercantage < 100 ? (
+              <span className="text-yellow-500">
+                Uploading {filePercantage}%
+              </span>
+            ) : filePercantage === 100 ? (
+              <span className="text-green-500">Uploaded</span>
+            ) : (
+              ""
+            )}
+          </p>
           <h2 className="text-secondaryColor text-2xl">Username:</h2>
           <input
             type="text"
@@ -56,7 +125,7 @@ export default function Profile() {
               Update
             </button>
             <button className="flex justify-center items-center p-3 rounded-lg bg-white border-2 border-mainColor m-3 w-48 mx-auto text-mainColor">
-              Create H2sting
+              Create Hosting
             </button>
           </div>
         </form>

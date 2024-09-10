@@ -14,7 +14,7 @@ const listingSchema = new mongoose.Schema({
         required: true,
     },
     age : {
-        type: Number,
+        type: String,
         required: true,
     },
     breed : {

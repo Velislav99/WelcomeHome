@@ -155,7 +155,7 @@ export default function Profile() {
           <h2 className="text-secondaryColor text-2xl">Username:</h2>
           <input
             type="text"
-            placeholder={currentUser?.username}
+            defaultValue={currentUser?.username}
             className="border border-secondaryColor shadow-sm shadow-gray-500 p-3 rounded-lg mb-4"
             id="username"
             onChange={handleChange}
@@ -163,7 +163,7 @@ export default function Profile() {
           <h2 className="text-secondaryColor text-2xl">Email:</h2>
           <input
             type="email"
-            placeholder={currentUser?.email}
+            defaultValue={currentUser?.email}
             className="border border-secondaryColor shadow-sm shadow-gray-500 p-3 rounded-lg mb-4"
             id="email"
             onChange={handleChange}
@@ -171,7 +171,7 @@ export default function Profile() {
           <h2 className="text-secondaryColor text-2xl">City:</h2>
           <input
             type="text"
-            placeholder={currentUser?.city}
+            defaultValue={currentUser?.city}
             className="border border-secondaryColor shadow-sm shadow-gray-500 p-3 rounded-lg mb-4"
             id="city"
             onChange={handleChange}
@@ -179,7 +179,7 @@ export default function Profile() {
           <h2 className="text-secondaryColor text-2xl">About me:</h2>
           <input
             type="text"
-            placeholder={currentUser?.aboutme}
+            defaultValue={currentUser?.aboutme}
             className="border border-secondaryColor shadow-sm shadow-gray-500 p-3 rounded-lg mb-4"
             id="aboutme"
             onChange={handleChange}

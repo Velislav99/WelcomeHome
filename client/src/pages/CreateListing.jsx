@@ -7,14 +7,27 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../firebase";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateListing() {
+  const {currentUser} = useSelector((state) => state.user)
+  const navigate = useNavigate();
   const [files, setFiles] = useState([]);
   const [formData, setFormData] = useState({
     imageUrls: [],
+    name: "",
+    description: "",
+    address: "",
+    age: "",
+    breed: "",
+    gender: "male",
+    vaccinations: false,
   });
   const [imageUploadError, setImageUploadError] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
   console.log(formData);
 
   const handleImageSubmit = (e) => {
@@ -77,7 +90,50 @@ export default function CreateListing() {
     });
   };
 
-  console.log(files);
+  const handleChange = (e) => {
+    if (e.target.id === "male" || e.target.id === "female") {
+      setFormData({ ...formData, gender: e.target.id });
+    }
+    if (e.target.id === "vaccinations") {
+      setFormData({ ...formData, [e.target.id]: e.target.checked });
+    }
+    if (
+      e.target.type === "text" ||
+      e.target.type === "number" ||
+      e.target.type === "textarea"
+    ) {
+      setFormData({ ...formData, [e.target.id]: e.target.value });
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      setError(false);
+      const res = await fetch("/api/listing/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+          userRef:currentUser._id}),
+        
+      });
+
+      const data = await res.json();
+      setLoading(false);
+      if (data.success === false) {
+        setError(data.message);
+      }
+
+      navigate(`/listing/${data._id}`);
+    } catch (error) {
+      setError(error.message);
+      setLoading(false);
+    }
+  };
   return (
     <>
       <Header headerName="Create Listing" />
@@ -85,7 +141,7 @@ export default function CreateListing() {
         <h1 className="text-3xl font-fredoka text-mainColor text-center my-7">
           Create Listing
         </h1>
-        <form className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="flex flex-col gap-3 ">
             <input
               type="text"
@@ -95,6 +151,8 @@ export default function CreateListing() {
               maxLength="62"
               minLength="3"
               required
+              onChange={handleChange}
+              value={formData.name}
             />
             <textarea
               type="text"
@@ -104,6 +162,8 @@ export default function CreateListing() {
               maxLength="500"
               minLength="50"
               required
+              onChange={handleChange}
+              value={formData.description}
             />
             <input
               type="text"
@@ -113,6 +173,8 @@ export default function CreateListing() {
               maxLength="62"
               minLength="10"
               required
+              onChange={handleChange}
+              value={formData.address}
             />
 
             <div className="flex flex-wrap sm:flex-row gap-3 ">
@@ -122,6 +184,8 @@ export default function CreateListing() {
                 className="border border-secondaryColor shadow-sm shadow-gray-500 p-3 rounded-lg flex-1"
                 id="age"
                 required
+                onChange={handleChange}
+                value={formData.age}
               />
               <input
                 type="text"
@@ -129,22 +193,40 @@ export default function CreateListing() {
                 className="border border-secondaryColor shadow-sm shadow-gray-500 p-3 rounded-lg flex-1 "
                 id="breed"
                 required
-              />
-              <input
-                type="text"
-                placeholder="Gender"
-                className="border border-secondaryColor shadow-sm shadow-gray-500 p-3 rounded-lg flex-1"
-                id="gender"
-                required
+                onChange={handleChange}
+                value={formData.breed}
               />
             </div>
-
+            <div className="flex flex-wrap sm:flex-row gap-3">
+              <div>
+                <span className="mr-2 text-secondaryColor">Gender:</span>
+                <input
+                  type="checkbox"
+                  className="w-5"
+                  id="male"
+                  onChange={handleChange}
+                  checked={formData.gender === "male"}
+                />
+                <span className="ml-2 text-secondaryColor">Male</span>
+              </div>{" "}
+              <div>
+                <input
+                  type="checkbox"
+                  className="w-5"
+                  id="female"
+                  onChange={handleChange}
+                  checked={formData.gender === "female"}
+                />
+                <span className="ml-2 text-secondaryColor">Female</span>
+              </div>
+            </div>
             <div>
               <input
                 type="checkbox"
                 className="w-5"
                 id="vaccinations"
-                required
+                onChange={handleChange}
+                checked={formData.vaccinations}
               />
               <span className="ml-2 text-secondaryColor">Vaccinations</span>
             </div>
@@ -181,7 +263,7 @@ export default function CreateListing() {
               formData.imageUrls.map((url, index) => (
                 <div
                   key={url}
-                  className="flex justify-between p-3 border items-center"
+                  className="flex justify-between p-3 border items-center mt-3"
                 >
                   <img
                     src={url}
@@ -198,9 +280,10 @@ export default function CreateListing() {
                 </div>
               ))}
           </div>
-          <button className="p-3 bg-mainColor text-white rounded uppercase hover:shadow-lg">
-            Create Listing
+          <button disabled = {loading || uploading} className="p-3 bg-mainColor text-white rounded uppercase hover:shadow-lg">
+            {loading? "Loading..." : "Create Listing"}
           </button>
+          {error && <p className="text-red-500">{error}</p>}
         </form>
       </main>
     </>

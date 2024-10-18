@@ -29,6 +29,8 @@ export default function Profile() {
   const [fileUploadError, setFileUploadError] = useState(false);
   const [formData, setFormData] = useState({});
   const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [showListingsError, setShowListingsError] = useState(false);
+  const [userListings, setUserListings] = useState([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -126,6 +128,23 @@ export default function Profile() {
       dispatch(signOutUserFailure(error.message));
     }
   };
+
+  const handleShowListings = async () => {
+    try {
+      setShowListingsError(false);
+      const res = await fetch(`/api/user/listings/${currentUser._id}`);
+      const data = await res.json();
+      if (data.success === false) {
+        setShowListingsError(true);
+        return;
+      }
+
+      setUserListings(data);
+    } catch (error) {
+      setShowListingsError(true);
+    }
+  }
+   
   return (
     <>
       <Header headerName="Profile" />
@@ -234,6 +253,34 @@ export default function Profile() {
         <p className="text-green-500 mt-5">
           {updateSuccess ? "User Updated" : ""}
         </p>
+        <button 
+        onClick={handleShowListings}
+        className="bg-mainColor w-full text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80 w-48 mx-auto m-3">Show Listings
+        </button>
+        <p className="text-red-500">{showListingsError ? "Could not fetch listings" : ""}</p>
+
+        {userListings && userListings.length > 0  && 
+        <div>
+        <h2 className="text-secondaryColor text-2xl text-center my-7 font-bold">Your Listings</h2>
+        {userListings.map((listing) => (
+          <div key={listing._id} className="gap-4 border border-secondaryColor shadow-sm shadow-gray-500 p-3 rounded-lg mb-4 flex justify-between items-center">
+            <Link to={`/listing/${listing._id}`}>
+              <img
+                src={listing.imageUrls[0]}
+                alt="Listing"
+                className="w-16 h-16 object-contain rounded-lg" //w-full h-60 object-cover rounded-lg
+              />
+            </Link>
+            <Link className="flex-1 text-secondaryColor text-2xl hover:underline truncate" to={`/listing/${listing._id}`}>
+              <h2 >{listing.name}</h2>
+            </Link>
+            <div className="flex flex-col">
+              <button className=" text-red-500 p-1 rounded-lg uppercase hover:opacity-95">DELETE</button>
+              <button className=" text-green-500 p-1 rounded-lg uppercase hover:opacity-95">Edit</button>
+            </div>
+          </div>
+        ))}
+        </div>}
       </div>
     </>
   );

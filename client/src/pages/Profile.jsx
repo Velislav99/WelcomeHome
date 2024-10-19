@@ -237,15 +237,15 @@ export default function Profile() {
             id="password"
             onChange={handleChange}
           />
-          <div className="flex">
+          <div className="flex justify-between items-center">
             <button
               disabled={loading}
-              className="bg-mainColor text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80 w-48 mx-auto m-3"
+              className="bg-mainColor text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80 w-48  m-3"
             >
               {loading ? "Loading..." : "Update"}
             </button>
             <Link to="/create-listing">
-              <button className="flex justify-center items-center p-3 rounded-lg bg-white border-2 border-mainColor m-3 mr-10 w-48 mx-auto text-mainColor">
+              <button className="flex justify-center items-center p-3 rounded-lg bg-white border-2 border-mainColor m-3  w-48  text-mainColor">
                 Create Listing
               </button>
             </Link>

@@ -271,7 +271,7 @@ export default function Profile() {
         </p>
         <button 
         onClick={handleShowListings}
-        className="bg-mainColor w-full text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80 w-48 mx-auto m-3">Show Listings
+        className="bg-mainColor w-full text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80  mx-auto m-3">Show Listings
         </button>
         <p className="text-red-500">{showListingsError ? "Could not fetch listings" : ""}</p>
 

@@ -159,7 +159,7 @@ export default function CreateListing() {
               placeholder="Description"
               className="border border-secondaryColor shadow-sm shadow-gray-500 p-3 rounded-lg mb-4"
               id="description"
-              maxLength="500"
+              maxLength="5000"
               minLength="50"
               required
               onChange={handleChange}

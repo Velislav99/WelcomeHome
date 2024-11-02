@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Header from "../components/Header";
+
 import { useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore from "swiper";
@@ -40,7 +40,7 @@ export default function Listing() {
   }, [params.listingId]);
   return (
     <div>
-      <Header headerName="WelcomeHome" />
+      
       <main>
         {loading && (
           <p className="text-center my-7 text-2xl font-fredoka text-mainColor">

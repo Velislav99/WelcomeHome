@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Header from "../components/Header";
+
 import {
   getDownloadURL,
   getStorage,
@@ -145,7 +145,7 @@ export default function UpdateListing() {
   };
   return (
     <>
-      <Header headerName="Update Listing" />
+      
       <main className="p-3 max-w-4xl mx-auto">
         <h1 className="text-3xl font-fredoka text-mainColor text-center my-7">
           Update Listing

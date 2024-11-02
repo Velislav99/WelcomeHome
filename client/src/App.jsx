@@ -10,13 +10,14 @@ import CreateListing from "./pages/CreateListing";
 import UpdateListing from "./pages/UpdateListing";
 import Listing from "./pages/Listing";
 import Header from "./components/Header";
+import Search from "./pages/Search";
 
 function App() {
   const location = useLocation();
   const [headerName, setHeaderName] = useState("WelcomeHome");
 
   useEffect(() => {
-    // Map each route to a header name
+    
     switch (location.pathname) {
       case "/profile":
         setHeaderName("Profile");
@@ -27,7 +28,15 @@ function App() {
       case "/create-listing":
         setHeaderName("Create Listing");
         break;
-      // Add more cases as needed
+      case "/update-listing":
+        setHeaderName("Update Listing");
+        break;
+      case "/signin":
+        setHeaderName("SignIn");
+        break;
+      case "/signup":
+        setHeaderName("SignUp");
+        break;
       default:
         setHeaderName("WelcomeHome");
     }
@@ -41,6 +50,7 @@ function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/help" element={<Help />} />
+        <Route path="/search" element={<Search />} />
         <Route path="/listing/:listingId" element={<Listing />} />
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />

@@ -20,7 +20,7 @@ export default function UpdateListing() {
     name: "",
     description: "",
     address: "",
-    age: "",
+    age: 0,
     breed: "",
     gender: "male",
     vaccinations: false,
@@ -188,7 +188,7 @@ export default function UpdateListing() {
 
             <div className="flex flex-wrap sm:flex-row gap-3 ">
               <input
-                type="text"
+                type="number"
                 placeholder="Age"
                 className="border border-secondaryColor shadow-sm shadow-gray-500 p-3 rounded-lg flex-1"
                 id="age"

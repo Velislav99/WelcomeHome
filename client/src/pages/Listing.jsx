@@ -20,8 +20,6 @@ export default function Listing() {
   const { currentUser } = useSelector((state) => state.user);
   const [listings, setListings] = useState([]);
 
-
-  
   useEffect(() => {
     const fetchListing = async () => {
       try {
@@ -46,11 +44,11 @@ export default function Listing() {
 
   useEffect(() => {
     const fetchListings = async () => {
-      if (!listing) return; 
-      
+      if (!listing) return;
+
       try {
         const response = await fetch(
-          `/api/listing/get?limit=3&searchTerm=${listing.breed}&sort=random`
+          `/api/listing/get?limit=4&searchTerm=${listing.breed}&sort=random`
         );
         const data = await response.json();
         setListings(data);
@@ -58,10 +56,10 @@ export default function Listing() {
         console.error("Error fetching recent listings:", error);
       }
     };
-    
+
     fetchListings();
-  }, [listing]); 
-  
+  }, [listing]);
+
   return (
     <div className="flex flex-col justify-center">
       <main>
@@ -148,9 +146,12 @@ export default function Listing() {
               >
                 Contact Owner
               </button>
-              <div className="flex flex-wrap justify-center gap-3 mt-10">
+              <div className="flex flex-wrap  justify-center ">
                 {listings.map((listing) => (
-                  <ListingItem key={listing._id} listing={listing}  />
+                  <div className="p-3 flex flex-wrap ml-2 mr-2 ">
+                    <ListingItem key={listing._id} listing={listing} />
+                  </div>
+                  
                 ))}
               </div>
             </div>

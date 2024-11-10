@@ -4,7 +4,7 @@ import { MdLocationOn } from "react-icons/md";
 
 export default function ListingItem({ listing }) {
   return (
-    <div className="bg-white shadow-md hover:shadow-lg transition-shadow overflow-hidden rounded-lg w-full sm:w-[330px]">
+    <div className="bg-white shadow-xl hover:shadow-lg transition-shadow overflow-hidden rounded-3xl w-full sm:w-[330px]">
       <Link to={`/listing/${listing._id}`}>
         <img
           src={listing.imageUrls[0]}
@@ -12,12 +12,12 @@ export default function ListingItem({ listing }) {
           className="h-[320px] sm:h-[220px] w-full object-cover hover:scale-105 transition-scale duration-300"
         />
         <div className="p-4 flex flex-col w-full">
-          <p className="truncate text-lg font-fredoka text-mainColor">
+          <p className="truncate text-lg font-bold text-secondaryColor">
             {listing.name}
           </p>
           <div className="flex items-center">
             <MdLocationOn className="inline-block mr-2 text-mainColor" />
-            <p className="text-mainColor text-sm truncate w-full">
+            <p className="text-secondaryColor text-sm truncate w-full">
               {listing.address}
             </p>
           </div>
@@ -25,7 +25,7 @@ export default function ListingItem({ listing }) {
             {listing.description}
           </p>
           <div className="flex gap-2 items-center">
-            <p className="text-mainColor text-lg font-fredoka mt-2">
+            <p className="text-secondaryColor text-lg font-fredoka mt-2">
               Age: {listing.age}
             </p>
             {listing.gender === "male" ? (
@@ -37,22 +37,12 @@ export default function ListingItem({ listing }) {
                 Female
               </p>
             )}
-
-            {listing.vaccinations === true ? (
-              <p className="bg-mainColor   text-white text-center p-1 rounded-md">
-                Vaccinated
-              </p>
-            ) : (
-              <p className="bg-red-400   text-white text-center p-1 rounded-md">
-                Not Vaccinated
-              </p>
-            )}
           </div>
-          <p className="text-mainColor text-lg font-fredoka mt-2">
+          <p className="text-secondaryColor text-lg font-fredoka mt-2">
             Breed: {listing.breed}
           </p>
           <div className="flex justify-end">
-            <p className="text-mainColor text-sm font-fredoka ">
+            <p className="text-secondaryColor text-sm font-fredoka ">
               Created at {listing.createdAt.slice(0, 10)}
             </p>
           </div>

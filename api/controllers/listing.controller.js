@@ -66,7 +66,7 @@ export const getListings = async (req, res, next) => {
     let vaccinations = req.query.vaccinations;
     if (vaccinations === undefined || vaccinations === "false") {
       vaccinations = { $in: [false, true] };
-    } 
+    }
 
     let gender = req.query.gender;
     if (gender === undefined || gender === "all") {
@@ -74,21 +74,38 @@ export const getListings = async (req, res, next) => {
     }
 
     const searchTerm = req.query.searchTerm || "";
-    
     const sort = req.query.sort || "createdAt";
     const order = req.query.order || "desc";
 
-    const listings = await Listing.find({
-      name: { $regex: searchTerm, $options: "i" },
+    // Build a match query for filtering by search term, vaccinations, and gender
+    const matchQuery = {
+      $or: [
+        { name: { $regex: searchTerm, $options: "i" } },
+        { breed: { $regex: searchTerm, $options: "i" } }
+      ],
       vaccinations,
-      gender
-    })
-      .sort({ [sort]: order })
-      .limit(limit)
-      .skip(startIndex);
+      gender,
+    };
+
+    let listings;
+
+    if (sort === "random") {
+      // Use aggregation with $sample for random ordering
+      listings = await Listing.aggregate([
+        { $match: matchQuery },
+        { $sample: { size: limit } }
+      ]);
+    } else {
+      // Regular sorting based on specified field and order
+      listings = await Listing.find(matchQuery)
+        .sort({ [sort]: order === "asc" ? 1 : -1 })
+        .limit(limit)
+        .skip(startIndex);
+    }
+
     return res.status(200).json(listings);
-    
   } catch (error) {
     next(error);
   }
-}
+};
+

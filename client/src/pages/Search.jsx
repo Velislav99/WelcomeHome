@@ -123,6 +123,7 @@ export default function Search() {
               value={sidebarData.searchTerm}
               onChange={handleChange}
             />
+            
           </div>
           <div className="flex items-center gap-2 flex-warp">
             <label className="whitespace-nowrap font-semibold">Gender:</label>

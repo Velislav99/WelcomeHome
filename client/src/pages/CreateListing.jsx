@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Header from "../components/Header";
+
 import {
   getDownloadURL,
   getStorage,
@@ -136,7 +136,7 @@ export default function CreateListing() {
   };
   return (
     <>
-      <Header headerName="Create Listing" />
+     
       <main className="p-3 max-w-4xl mx-auto">
         <h1 className="text-3xl font-fredoka text-mainColor text-center my-7">
           Create Listing

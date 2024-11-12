@@ -1,14 +1,19 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ListingItem from "../components/ListingItem";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import SwiperCore from "swiper";
+import "swiper/css/bundle";
 
 export default function Home() {
   const [listings, setListings] = useState([]);
 
+  SwiperCore.use([Navigation]);
   useEffect(() => {
     const fetchListings = async () => {
       try {
-        const response = await fetch("/api/listing/get?limit=3");
+        const response = await fetch("/api/listing/get?limit=10");
         const data = await response.json();
         setListings(data);
       } catch (error) {
@@ -18,16 +23,14 @@ export default function Home() {
     fetchListings();
   }, []);
   return (
-    <div>
+    <div className="mx-auto max-w-[1400px]">
       <div className="md:flex mt-20 mb-20 md:mt-0 md:mb-0">
-       
         <img
           src="../../Home.png"
           alt="Home cover image"
           className="h-[400px] hidden md:block"
         />
 
-        
         <div className="flex flex-col place-items-center justify-center text-center text-white p-4 ">
           <h1 className="text-3xl font-bold text-secondaryColor ">
             Find your perfect <br /> furry
@@ -71,11 +74,35 @@ export default function Home() {
       <h2 className="text-3xl font-fredoka text-secondaryColor text-center mt-8">
         Recent Pets
       </h2>
-      <div className="flex flex-wrap justify-center gap-10 mt-10">
-        {listings.map((listing) => (
-          <ListingItem key={listing._id} listing={listing} />
-        ))}
+
+      {listings && listings.length > 0 && (
+        <div className="max-w-7xl mx-auto p-3 my-7 gap-4">
+        <Swiper
+          navigation
+          slidesPerView={1}
+          spaceBetween={20}
+          centeredSlides={false}
+          breakpoints={{
+            320: { slidesPerView: 1 },      
+            640: { slidesPerView: 1 },
+            768: { slidesPerView: 2 },
+            900: { slidesPerView: 3 },
+            1132: { slidesPerView: 4 },
+          }}
+        >
+          {listings.map((listing) => (
+            <SwiperSlide
+              key={listing._id}
+              className="flex justify-center"
+            >
+              <div className="bg-white shadow-lg rounded-lg   max-w-sm">
+                <ListingItem listing={listing} />
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
       </div>
+      )}
     </div>
   );
 }

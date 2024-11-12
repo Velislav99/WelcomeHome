@@ -146,13 +146,31 @@ export default function Listing() {
               >
                 Contact Owner
               </button>
-              <div className="flex flex-wrap  justify-center ">
-                {listings.map((listing) => (
-                  <div className="p-3 flex flex-wrap ml-2 mr-2 ">
-                    <ListingItem key={listing._id} listing={listing} />
-                  </div>
-                  
-                ))}
+              <div className="w-full">
+                <h1 className="font-fredoka text-mainColor text-2xl">Similar Pets</h1>
+                <Swiper
+                  navigation
+                  slidesPerView={1}
+                  spaceBetween={20}
+                  centeredSlides={false}
+                  breakpoints={{
+                    320: { slidesPerView: 1 },
+                    640: { slidesPerView: 1 },
+                    768: { slidesPerView: 2 },
+                    1132: { slidesPerView: 3 },
+                  }}
+                >
+                  {listings.map((listing) => (
+                    <SwiperSlide
+                      key={listing._id}
+                      className="flex justify-center"
+                    >
+                      <div className="bg-white shadow-lg rounded-lg   max-w-sm">
+                        <ListingItem listing={listing} />
+                      </div>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
               </div>
             </div>
           </div>

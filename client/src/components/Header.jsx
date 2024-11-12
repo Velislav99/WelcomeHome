@@ -44,7 +44,7 @@ export default function Header({ headerName }) {
   }, []);
 
   return (
-    <header className="border-b border-secondaryColor shadow-sm shadow-gray-500">
+    <header className="">
       <div className="flex justify-between items-center p-3">
         <div className="flex items-center">
           <Link to="/">

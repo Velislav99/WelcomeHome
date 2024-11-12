@@ -24,18 +24,17 @@ export default function Home() {
   }, []);
   return (
     <div className="mx-auto max-w-[1400px]">
-      <div className="md:flex mt-20 mb-20 md:mt-0 md:mb-0">
-        <img
-          src="../../Home.png"
-          alt="Home cover image"
-          className="h-[400px] hidden md:block"
-        />
-
-        <div className="flex flex-col place-items-center justify-center text-center text-white p-4 ">
-          <h1 className="text-3xl font-bold text-secondaryColor ">
-            Find your perfect <br /> furry
-            <span className="text-mainColor"> companion</span> now!
+      <div className="md:flex mt-20 mb-20  justify-between">
+        <div className="flex flex-col place-items-center justify-center text-center text-white p-4 md:ml-20">
+          <h1 className="text-4xl font-fredoka text-mainColor ">
+            Adopt, Don’t Shop – Give a Shelter Pet a Home!
           </h1>
+          <p className="text-secondaryColor justify-between text-2xl font-fredoka">
+            Join us in giving a second chance to loving animals in need. Instead
+            of buying, choose adoption and provide a forever home to a pet
+            waiting for a family. Every adoption helps save lives and creates
+            lasting bonds. Visit our site today to find your perfect companion!
+          </p>
 
           <Link
             to="/search"
@@ -44,8 +43,13 @@ export default function Home() {
             Find your pet
           </Link>
         </div>
+        <img
+          src="../../Home.png"
+          alt="Home cover image"
+          className="h-[600px] hidden md:block"
+        />
       </div>
-      <div className="flex lg:flex-row flex-col">
+      {/* <div className="flex lg:flex-row flex-col">
         <div className="min-w-[400px]">
           <h2 className="text-3xl font-bold text-secondaryColor text-center mt-8">
             Every pet deserves a loving home. Join us in making a difference -
@@ -70,38 +74,35 @@ export default function Home() {
           alt="Pet Adoption"
           className=" rounded-3xl mr-4 hidden lg:block lg:h-[400px]"
         />
-      </div>
+      </div> */}
       <h2 className="text-3xl font-fredoka text-secondaryColor text-center mt-8">
         Recent Pets
       </h2>
 
       {listings && listings.length > 0 && (
         <div className="max-w-7xl mx-auto p-3 my-7 gap-4">
-        <Swiper
-          navigation
-          slidesPerView={1}
-          spaceBetween={20}
-          centeredSlides={false}
-          breakpoints={{
-            320: { slidesPerView: 1 },      
-            640: { slidesPerView: 1 },
-            768: { slidesPerView: 2 },
-            900: { slidesPerView: 3 },
-            1132: { slidesPerView: 4 },
-          }}
-        >
-          {listings.map((listing) => (
-            <SwiperSlide
-              key={listing._id}
-              className="flex justify-center"
-            >
-              <div className="bg-white shadow-lg rounded-lg   max-w-sm">
-                <ListingItem listing={listing} />
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
+          <Swiper
+            navigation
+            slidesPerView={1}
+            spaceBetween={20}
+            centeredSlides={false}
+            breakpoints={{
+              320: { slidesPerView: 1 },
+              640: { slidesPerView: 1 },
+              768: { slidesPerView: 2 },
+              900: { slidesPerView: 3 },
+              1132: { slidesPerView: 4 },
+            }}
+          >
+            {listings.map((listing) => (
+              <SwiperSlide key={listing._id} className="flex justify-center">
+                <div className="bg-white shadow-lg rounded-lg   max-w-sm">
+                  <ListingItem listing={listing} />
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
       )}
     </div>
   );

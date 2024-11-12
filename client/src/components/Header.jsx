@@ -2,29 +2,20 @@ import { useState, useEffect, useRef } from "react";
 import logo from "../assets/logo.png";
 import { FaSearch, FaRegBell, FaUser } from "react-icons/fa";
 import { AiOutlineMessage } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
+import { Menu, X } from "lucide-react";
 
 export default function Header({ headerName }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
   const { currentUser } = useSelector((state) => state.user);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const dropdownRef = useRef(null);
-  const pages = ["Profile", "Home", "Help"];
-  const [searchTerm, setSearchTerm] = useState("");
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setDropdownOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [dropdownRef]);
+
+  const toggleNavbar = () => {
+    setIsOpen(!isOpen);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -32,7 +23,7 @@ export default function Header({ headerName }) {
     urlParams.set("searchTerm", searchTerm);
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
-  };
+  }
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -43,22 +34,54 @@ export default function Header({ headerName }) {
     
   }, []);
 
-  return (
-    <header className="">
-      <div className="flex justify-between items-center p-3">
+  function NavLinks() {
+    return (
+      <>
+        <NavLink to="/about">About</NavLink>
+        <NavLink to="/help">Help</NavLink>
+        <NavLink to="/contact">Contact</NavLink>
         <div className="flex items-center">
-          <Link to="/">
-            <img src={logo} alt="Logo" className="h-10 w-10 mr-2" />
-          </Link>
-          <h1 className="text-sm sm:text-xl flex flex-wrap">
-            <span className="text-mainColor font-fredoka">{headerName}</span>
-          </h1>
+          {currentUser ? (
+            <div className="flex" >
+              <AiOutlineMessage className="text-mainColor mr-4" fontSize={24} />
+              <FaRegBell className="text-mainColor mr-4" fontSize={24} />
+              
+                <Link to="/profile">
+                <img
+                  src={currentUser.avatar}
+                  alt="Avatar"
+                  className="h-8 w-8 rounded-full "
+                  
+                  />
+                  </Link>
+              
+              
+            </div>
+          ) : (
+            <Link to="/signin">
+              <span className="bg-mainColor text-white rounded-xl p-2 font-fredoka text-2xl">Sign In</span>
+            </Link>
+          )}
         </div>
-        <form onSubmit={handleSubmit} className="flex items-center">
+      </>
+    );
+  }
+
+  return (
+    <header className="bg- sticky top-0 z-[20] mx-auto flex w-full flex-wrap justify-between items-center p-3">
+      <div className="flex items-center">
+        <Link to="/">
+          <img src={logo} alt="Logo" className="h-10 w-10 mr-2" />
+        </Link>
+        <h1 className="text-sm sm:text-xl flex flex-wrap">
+          <span className="text-mainColor font-fredoka">{headerName}</span>
+        </h1>
+      </div>
+      <form onSubmit={handleSubmit} className="flex items-center">
           <input
             type="text"
             placeholder="Search"
-            className="bg-transparent focus:outline-none w-12 sm:w-64"
+            className="bg-transparent focus:outline-none w-12 sm:w-32"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -66,42 +89,17 @@ export default function Header({ headerName }) {
             <FaSearch className="text-gray-400 ml-2" />
           </button>
         </form>
-        <div className="flex items-center">
-          <AiOutlineMessage className="text-mainColor mr-4" fontSize={24} />
-          <FaRegBell className="text-mainColor mr-4" fontSize={24} />
-          {currentUser ? (
-            <div className="relative" ref={dropdownRef}>
-              <button
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="focus:outline-none flex items-center"
-              >
-                <img
-                  src={currentUser.avatar}
-                  alt="Avatar"
-                  className="h-8 w-8 rounded-full "
-                />
-              </button>
-              {dropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10">
-                  {pages.map((page) => (
-                    <Link
-                      key={page} // Adding the key here
-                      to={page === "Home" ? "/" : `/${page.toLowerCase()}`}
-                      className="block px-4 py-2 text-mainColor hover:bg-gray-100" // Apply styles here
-                    >
-                      {page}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-          ) : (
-            <Link to="/signin">
-              <span className="text-mainColor font-fredoka">Sign In</span>
-            </Link>
-          )}
+      <nav className="w-1/3 flex justify-end">
+        <div className="hidden justify-between md:flex gap-4 text-mainColor font-fredoka">
+          <NavLinks/>
         </div>
-      </div>
+        <div className="md:hidden">
+          <button onClick={toggleNavbar}>{isOpen ? <X /> : <Menu />}</button>
+        </div>
+      </nav>
+      {isOpen && <div className="flex flex-col items-center basis-full">
+        <NavLinks/>
+        </div>}
     </header>
   );
 }

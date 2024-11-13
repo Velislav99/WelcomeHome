@@ -2,6 +2,7 @@ import { set } from "mongoose";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ListingItem from "../components/ListingItem";
+import petTypeOptions from "../petTypeOptions.json";
 
 export default function Search() {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ export default function Search() {
   const [loading, setLoading] = useState(false);
   const [listings, setListings] = useState([]);
   const [showMore, setShowMore] = useState(false);
+  const options = petTypeOptions;
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -53,7 +55,7 @@ export default function Search() {
 
       if (data.length > 8) {
         setShowMore(true);
-      }else if (data.length < 9) {
+      } else if (data.length < 9) {
         setShowMore(false);
       }
 
@@ -115,6 +117,9 @@ export default function Search() {
     }
     setListings([...listings, ...data]);
   };
+
+ 
+
   return (
     <div className="flex flex-col md:flex-row">
       <div className="p-7 border-b-2 md:border-r-2 md:min-h-screen">
@@ -131,20 +136,16 @@ export default function Search() {
               value={sidebarData.searchTerm}
               onChange={handleChange}
             />
-            
           </div>
           <div className="flex items-center gap-2">
-            <label className="whitespace-nowrap font-semibold">
-              Type:
-            </label>
-            <input
-              type="text"
-              id="type"
-              placeholder="Type..."
-              className="border rounded-lg p-3 w-full"
-              value={sidebarData.type}
-              onChange={handleChange}
-            />
+            <label className="whitespace-nowrap font-semibold">Type:</label>
+              <select id="type" className="form-select border rounded-lg p-3" onChange={handleChange}>
+                {options.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
             
           </div>
           <div className="flex items-center gap-2 flex-warp">
@@ -202,7 +203,6 @@ export default function Search() {
               <option value={"age_asc"}>Age</option>
             </select>
           </div>
-          
 
           <button className="bg-mainColor text-white p-3 rounded-lg hover:opacity-95">
             Search

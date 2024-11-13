@@ -9,6 +9,7 @@ import {
 import { app } from "../firebase";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import petTypeOptions from "../petTypeOptions";
 
 export default function CreateListing() {
   const { currentUser } = useSelector((state) => state.user);
@@ -21,6 +22,7 @@ export default function CreateListing() {
     address: "",
     age: { years: "", months: "" },
     breed: "",
+    type: "",
     gender: "male",
     vaccinations: false,
   });
@@ -28,7 +30,7 @@ export default function CreateListing() {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-  console.log(formData);
+  const options = petTypeOptions;
 
   const handleImageSubmit = (e) => {
     if (files.length > 0 && files.length + formData.imageUrls.length < 7) {
@@ -176,6 +178,17 @@ export default function CreateListing() {
               onChange={handleChange}
               value={formData.address}
             />
+             <div className="flex items-center gap-2">
+            <label className="whitespace-nowrap font-semibold text-secondaryColor mr-1">Type:</label>
+              <select id="type" className="form-select border rounded-lg p-3" onChange={handleChange}>
+                {options.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            
+          </div>
 
             <div className="flex flex-wrap sm:flex-row gap-3 ">
               <div className="flex gap-3 items-center">

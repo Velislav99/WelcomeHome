@@ -9,9 +9,10 @@ import {
 import { app } from "../firebase";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import petTypeOptions from "../petTypeOptions";
 
 export default function UpdateListing() {
-  const {currentUser} = useSelector((state) => state.user)
+  const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const params = useParams();
   const [files, setFiles] = useState([]);
@@ -30,16 +31,17 @@ export default function UpdateListing() {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-  
+  const options = petTypeOptions;
+
   useEffect(() => {
-      const fetchListing = async () => {
-          const listingId = params.listingId;
-          const res = await fetch(`/api/listing/get/${listingId}`);
-          const data = await res.json();
-          setFormData(data);
-      }
-      fetchListing()
-  },[])
+    const fetchListing = async () => {
+      const listingId = params.listingId;
+      const res = await fetch(`/api/listing/get/${listingId}`);
+      const data = await res.json();
+      setFormData(data);
+    };
+    fetchListing();
+  }, []);
   const handleImageSubmit = (e) => {
     if (files.length > 0 && files.length + formData.imageUrls.length < 7) {
       setUploading(true);
@@ -102,7 +104,7 @@ export default function UpdateListing() {
 
   const handleChange = (e) => {
     const { id, value } = e.target;
-  
+
     if (id === "years" || id === "months") {
       setFormData((prevFormData) => ({
         ...prevFormData,
@@ -129,8 +131,8 @@ export default function UpdateListing() {
         },
         body: JSON.stringify({
           ...formData,
-          userRef:currentUser._id}),
-        
+          userRef: currentUser._id,
+        }),
       });
 
       const data = await res.json();
@@ -147,7 +149,6 @@ export default function UpdateListing() {
   };
   return (
     <>
-      
       <main className="p-3 max-w-4xl mx-auto">
         <h1 className="text-3xl font-fredoka text-mainColor text-center my-7">
           Update Listing
@@ -187,18 +188,29 @@ export default function UpdateListing() {
               onChange={handleChange}
               value={formData.address}
             />
-            <input
-                type="text"
-                placeholder="Type"
-                className="border border-secondaryColor shadow-sm shadow-gray-500 p-3 rounded-lg flex-1 "
+            <div className="flex items-center gap-2">
+              <label className="whitespace-nowrap font-semibold text-secondaryColor mr-1">
+                Type:
+              </label>
+              <select
                 id="type"
-                required
+                className="form-select border rounded-lg p-3"
                 onChange={handleChange}
                 value={formData.type}
-              />
+              >
+                {options.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
 
             <div className="flex flex-wrap sm:flex-row gap-3 ">
-            <div className="flex flex-wrap sm:flex-row gap-3">
+              <div className="flex gap-3 items-center">
+                <span className="mr-2 text-secondaryColor">Age:</span>
+
+                <div className="flex flex-wrap sm:flex-row gap-3">
                   <input
                     type="number"
                     placeholder="Years"
@@ -218,6 +230,7 @@ export default function UpdateListing() {
                     value={formData.age.months}
                   />
                 </div>
+              </div>
               <input
                 type="text"
                 placeholder="Breed"
@@ -228,6 +241,7 @@ export default function UpdateListing() {
                 value={formData.breed}
               />
             </div>
+
             <div className="flex flex-wrap sm:flex-row gap-3">
               <div>
                 <span className="mr-2 text-secondaryColor">Gender:</span>
@@ -311,8 +325,11 @@ export default function UpdateListing() {
                 </div>
               ))}
           </div>
-          <button disabled = {loading || uploading} className="p-3 bg-mainColor text-white rounded uppercase hover:shadow-lg">
-            {loading? "Loading..." : "Update Listing"}
+          <button
+            disabled={loading || uploading}
+            className="p-3 bg-mainColor text-white rounded uppercase hover:shadow-lg"
+          >
+            {loading ? "Loading..." : "Update Listing"}
           </button>
           {error && <p className="text-red-500">{error}</p>}
         </form>

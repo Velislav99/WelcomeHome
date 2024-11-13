@@ -1,0 +1,63 @@
+[
+    {
+      "label":"All", 
+      "value":""
+    },
+    {
+      "label": "Dog",
+      "value": "Dog"
+    },
+    {
+      "label": "Cat",
+      "value": "Cat"
+    },
+    {
+      "label": "Fish",
+      "value": "Fish"
+    },
+    {
+      "label": "Rabbit",
+      "value": "Rabbit"
+    },
+    {
+      "label": "Bird",
+      "value": "Bird"
+    },
+    {
+      "label": "Hamster",
+      "value": "Hamster"
+    },
+    {
+      "label": "Guinea Pig",
+      "value": "Guinea Pig"
+    },
+    {
+      "label": "Reptile",
+      "value": "Reptile"
+    },
+    {
+      "label": "Ferret",
+      "value": "Ferret"
+    },
+    {
+      "label": "Turtle",
+      "value": "Turtle"
+    },
+    {
+      "label": "Snake",
+      "value": "Snake"
+    },
+    {
+      "label": "Horse",
+      "value": "Horse"
+    },
+    {
+      "label": "Parrot",
+      "value": "Parrot"
+    },
+    {
+      "label": "Other",
+      "value": "Other"
+    }
+  ]
+  

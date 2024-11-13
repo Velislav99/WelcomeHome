@@ -20,7 +20,7 @@ export default function UpdateListing() {
     name: "",
     description: "",
     address: "",
-    age: 0,
+    age: { years: "", months: "" }, // Update here
     breed: "",
     gender: "male",
     vaccinations: false,
@@ -100,18 +100,19 @@ export default function UpdateListing() {
   };
 
   const handleChange = (e) => {
-    if (e.target.id === "male" || e.target.id === "female") {
-      setFormData({ ...formData, gender: e.target.id });
-    }
-    if (e.target.id === "vaccinations") {
-      setFormData({ ...formData, [e.target.id]: e.target.checked });
-    }
-    if (
-      e.target.type === "text" ||
-      e.target.type === "number" ||
-      e.target.type === "textarea"
-    ) {
-      setFormData({ ...formData, [e.target.id]: e.target.value });
+    const { id, value } = e.target;
+  
+    if (id === "years" || id === "months") {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        age: { ...prevFormData.age, [id]: value },
+      }));
+    } else if (id === "male" || id === "female") {
+      setFormData({ ...formData, gender: id });
+    } else if (id === "vaccinations") {
+      setFormData({ ...formData, vaccinations: e.target.checked });
+    } else {
+      setFormData({ ...formData, [id]: value });
     }
   };
 
@@ -187,15 +188,26 @@ export default function UpdateListing() {
             />
 
             <div className="flex flex-wrap sm:flex-row gap-3 ">
-              <input
-                type="number"
-                placeholder="Age"
-                className="border border-secondaryColor shadow-sm shadow-gray-500 p-3 rounded-lg flex-1"
-                id="age"
-                required
-                onChange={handleChange}
-                value={formData.age}
-              />
+            <div className="flex flex-wrap sm:flex-row gap-3">
+                  <input
+                    type="number"
+                    placeholder="Years"
+                    className="border border-secondaryColor shadow-sm shadow-gray-500 p-3 rounded-lg flex-1"
+                    id="years"
+                    required
+                    onChange={handleChange}
+                    value={formData.age.years}
+                  />
+                  <input
+                    type="number"
+                    placeholder="Months"
+                    className="border border-secondaryColor shadow-sm shadow-gray-500 p-3 rounded-lg flex-1"
+                    id="months"
+                    required
+                    onChange={handleChange}
+                    value={formData.age.months}
+                  />
+                </div>
               <input
                 type="text"
                 placeholder="Breed"

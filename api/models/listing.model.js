@@ -1,44 +1,46 @@
 import mongoose from "mongoose";
 
-const listingSchema = new mongoose.Schema({
-    name : {
-        type: String,
-        required: true,
+const listingSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
     },
-    description : {
-        type: String,
-        required: true,
+    description: {
+      type: String,
+      required: true,
     },
-    address : {
-        type: String,
-        required: true,
+    address: {
+      type: String,
+      required: true,
     },
-    age : {
-        type: Number,
-        required: true,
+    age: {
+      years: { type: Number, required: true },
+      months: { type: Number, required: true },
     },
-    breed : {
-        type: String,
-        required: true,
+    breed: {
+      type: String,
+      required: true,
     },
-    gender : {
-        type: String,
-        required: true,
+    gender: {
+      type: String,
+      required: true,
     },
-    vaccinations : {
-        type: Boolean,
-        required: true,
+    vaccinations: {
+      type: Boolean,
+      required: true,
     },
-    imageUrls : {
-        type: Array,
-        required: true,
+    imageUrls: {
+      type: Array,
+      required: true,
     },
-    userRef : {
-        type: String,
-        required: true,
+    userRef: {
+      type: String,
+      required: true,
     },
-}, {timestamps: true}
-)
+  },
+  { timestamps: true }
+);
 
 const Listing = mongoose.model("Listing", listingSchema);
 

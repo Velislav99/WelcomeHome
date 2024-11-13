@@ -32,6 +32,7 @@ export default function Listing() {
           return;
         }
         setListing(data);
+        console.log(data);
         setLoading(false);
         setError(false);
       } catch (error) {
@@ -78,13 +79,13 @@ export default function Listing() {
             <Swiper navigation>
               {listing.imageUrls.map((url) => (
                 <SwiperSlide key={url}>
-                  <div
-                    className="h-[550px]"
-                    style={{
-                      background: `url(${url}) center no-repeat`,
-                      backgroundSize: "cover",
-                    }}
-                  ></div>
+                  <div className="h-[550px] flex items-center justify-center bg-gray-200">
+                    <img
+                      src={url}
+                      alt="Listing Image"
+                      className="h-[550px] object-cover"
+                    />
+                  </div>
                 </SwiperSlide>
               ))}
             </Swiper>
@@ -105,7 +106,7 @@ export default function Listing() {
                 Link copied!
               </p>
             )}
-            <div className="flex flex-col max-w-4xl mx-auto p-3 my-7 gap-4">
+            <div className="flex flex-col  mx-auto p-3 my-7 gap-4">
               <p className="text-2xl font-semibold">{listing.name}</p>
               <p className="flex items-center mt-6 gap-2 text-slate-600 text-sm">
                 <FaMapMarkerAlt className="text-mainColor" />
@@ -138,7 +139,13 @@ export default function Listing() {
                 <h1 className="font-fredoka text-mainColor">Breed:</h1>
                 <p>{listing.breed}</p>
                 <h1 className="font-fredoka text-mainColor">Age:</h1>
-                <p>{listing.age}</p>
+                <p>
+                  {listing.age &&
+                  listing.age.years >= 0 &&
+                  listing.age.months >= 0
+                    ? `${listing.age.years} years, ${listing.age.months} months`
+                    : "Age information not available"}
+                </p>
               </div>
               <button
                 onClick={() => setContact(true)}
@@ -147,7 +154,9 @@ export default function Listing() {
                 Contact Owner
               </button>
               <div className="w-full">
-                <h1 className="font-fredoka text-mainColor text-2xl">Similar Pets</h1>
+                <h1 className="font-fredoka text-mainColor text-2xl">
+                  Similar Pets
+                </h1>
                 <Swiper
                   navigation
                   slidesPerView={1}

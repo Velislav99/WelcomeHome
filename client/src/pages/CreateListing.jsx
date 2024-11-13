@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 export default function CreateListing() {
-  const {currentUser} = useSelector((state) => state.user)
+  const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const [files, setFiles] = useState([]);
   const [formData, setFormData] = useState({
@@ -19,7 +19,7 @@ export default function CreateListing() {
     name: "",
     description: "",
     address: "",
-    age: 0,
+    age: { years: "", months: "" },
     breed: "",
     gender: "male",
     vaccinations: false,
@@ -91,18 +91,19 @@ export default function CreateListing() {
   };
 
   const handleChange = (e) => {
-    if (e.target.id === "male" || e.target.id === "female") {
-      setFormData({ ...formData, gender: e.target.id });
-    }
-    if (e.target.id === "vaccinations") {
-      setFormData({ ...formData, [e.target.id]: e.target.checked });
-    }
-    if (
-      e.target.type === "text" ||
-      e.target.type === "number" ||
-      e.target.type === "textarea"
-    ) {
-      setFormData({ ...formData, [e.target.id]: e.target.value });
+    const { id, value } = e.target;
+
+    if (id === "years" || id === "months") {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        age: { ...prevFormData.age, [id]: parseInt(value, 10) || 0 }, // Ensure values are numbers
+      }));
+    } else if (id === "male" || id === "female") {
+      setFormData({ ...formData, gender: id });
+    } else if (id === "vaccinations") {
+      setFormData({ ...formData, vaccinations: e.target.checked });
+    } else {
+      setFormData({ ...formData, [id]: value });
     }
   };
 
@@ -118,8 +119,8 @@ export default function CreateListing() {
         },
         body: JSON.stringify({
           ...formData,
-          userRef:currentUser._id}),
-        
+          userRef: currentUser._id,
+        }),
       });
 
       const data = await res.json();
@@ -136,7 +137,6 @@ export default function CreateListing() {
   };
   return (
     <>
-     
       <main className="p-3 max-w-4xl mx-auto">
         <h1 className="text-3xl font-fredoka text-mainColor text-center my-7">
           Create Listing
@@ -178,15 +178,30 @@ export default function CreateListing() {
             />
 
             <div className="flex flex-wrap sm:flex-row gap-3 ">
-              <input
-                type="number"
-                placeholder="Age"
-                className="border border-secondaryColor shadow-sm shadow-gray-500 p-3 rounded-lg flex-1"
-                id="age"
-                required
-                onChange={handleChange}
-                value={formData.age}
-              />
+              <div className="flex gap-3 items-center">
+                <span className="mr-2 text-secondaryColor">Age:</span>
+
+                <div className="flex flex-wrap sm:flex-row gap-3">
+                  <input
+                    type="number"
+                    placeholder="Years"
+                    className="border border-secondaryColor shadow-sm shadow-gray-500 p-3 rounded-lg flex-1"
+                    id="years"
+                    required
+                    onChange={handleChange}
+                    value={formData.age.years}
+                  />
+                  <input
+                    type="number"
+                    placeholder="Months"
+                    className="border border-secondaryColor shadow-sm shadow-gray-500 p-3 rounded-lg flex-1"
+                    id="months"
+                    required
+                    onChange={handleChange}
+                    value={formData.age.months}
+                  />
+                </div>
+              </div>
               <input
                 type="text"
                 placeholder="Breed"
@@ -280,8 +295,11 @@ export default function CreateListing() {
                 </div>
               ))}
           </div>
-          <button disabled = {loading || uploading} className="p-3 bg-mainColor text-white rounded uppercase hover:shadow-lg">
-            {loading? "Loading..." : "Create Listing"}
+          <button
+            disabled={loading || uploading}
+            className="p-3 bg-mainColor text-white rounded uppercase hover:shadow-lg"
+          >
+            {loading ? "Loading..." : "Create Listing"}
           </button>
           {error && <p className="text-red-500">{error}</p>}
         </form>

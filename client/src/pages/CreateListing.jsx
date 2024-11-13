@@ -178,17 +178,22 @@ export default function CreateListing() {
               onChange={handleChange}
               value={formData.address}
             />
-             <div className="flex items-center gap-2">
-            <label className="whitespace-nowrap font-semibold text-secondaryColor mr-1">Type:</label>
-              <select id="type" className="form-select border rounded-lg p-3" onChange={handleChange}>
+            <div className="flex items-center gap-2">
+              <label className="whitespace-nowrap font-semibold text-secondaryColor mr-1">
+                Type:
+              </label>
+              <select
+                id="type"
+                className="form-select border rounded-lg p-3"
+                onChange={handleChange}
+              >
                 {options.map((option) => (
                   <option key={option.value} value={option.value}>
                     {option.label}
                   </option>
                 ))}
               </select>
-            
-          </div>
+            </div>
 
             <div className="flex flex-wrap sm:flex-row gap-3 ">
               <div className="flex gap-3 items-center">

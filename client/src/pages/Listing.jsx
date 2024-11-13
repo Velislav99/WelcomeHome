@@ -136,6 +136,8 @@ export default function Listing() {
               <h1 className="font-fredoka text-mainColor">Description</h1>
               <p className="text-slate-800">{listing.description}</p>
               <div className="flex gap-2">
+                <h1 className="font-fredoka text-mainColor">Type:</h1>
+                <p>{listing.type}</p>
                 <h1 className="font-fredoka text-mainColor">Breed:</h1>
                 <p>{listing.breed}</p>
                 <h1 className="font-fredoka text-mainColor">Age:</h1>
@@ -143,7 +145,7 @@ export default function Listing() {
                   {listing.age &&
                   listing.age.years >= 0 &&
                   listing.age.months >= 0
-                    ? `${listing.age.years} years, ${listing.age.months} months`
+                    ? `${listing.age.years}y ${listing.age.months}m`
                     : "Age information not available"}
                 </p>
               </div>

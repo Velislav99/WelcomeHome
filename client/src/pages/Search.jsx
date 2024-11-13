@@ -7,6 +7,7 @@ export default function Search() {
   const navigate = useNavigate();
   const [sidebarData, setSidebarData] = useState({
     searchTerm: "",
+    type: "",
     gender: "all",
     vaccinations: false,
     sort: "createdAt",
@@ -20,6 +21,7 @@ export default function Search() {
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const searchTermFromUrl = urlParams.get("searchTerm");
+    const typeFromUrl = urlParams.get("type");
     const genderFromUrl = urlParams.get("gender");
     const vaccinationsFromUrl = urlParams.get("vaccinations");
     const sortFromUrl = urlParams.get("sort");
@@ -27,6 +29,7 @@ export default function Search() {
 
     if (
       searchTermFromUrl ||
+      typeFromUrl ||
       genderFromUrl ||
       vaccinationsFromUrl ||
       sortFromUrl ||
@@ -34,6 +37,7 @@ export default function Search() {
     ) {
       setSidebarData({
         searchTerm: searchTermFromUrl || "",
+        type: typeFromUrl || "",
         gender: genderFromUrl || "all",
         vaccinations: vaccinationsFromUrl === "true" ? true : false,
         sort: sortFromUrl || "createdAt",
@@ -71,6 +75,9 @@ export default function Search() {
     if (e.target.id === "searchTerm") {
       setSidebarData({ ...sidebarData, searchTerm: e.target.value });
     }
+    if (e.target.id === "type") {
+      setSidebarData({ ...sidebarData, type: e.target.value });
+    }
     if (e.target.id === "vaccinations") {
       setSidebarData({
         ...sidebarData,
@@ -87,6 +94,7 @@ export default function Search() {
     e.preventDefault();
     const urlParams = new URLSearchParams();
     urlParams.set("searchTerm", sidebarData.searchTerm);
+    urlParams.set("type", sidebarData.type);
     urlParams.set("gender", sidebarData.gender);
     urlParams.set("vaccinations", sidebarData.vaccinations);
     urlParams.set("sort", sidebarData.sort);
@@ -121,6 +129,20 @@ export default function Search() {
               placeholder="Search..."
               className="border rounded-lg p-3 w-full"
               value={sidebarData.searchTerm}
+              onChange={handleChange}
+            />
+            
+          </div>
+          <div className="flex items-center gap-2">
+            <label className="whitespace-nowrap font-semibold">
+              Type:
+            </label>
+            <input
+              type="text"
+              id="type"
+              placeholder="Type..."
+              className="border rounded-lg p-3 w-full"
+              value={sidebarData.type}
               onChange={handleChange}
             />
             
@@ -180,6 +202,7 @@ export default function Search() {
               <option value={"age_asc"}>Age</option>
             </select>
           </div>
+          
 
           <button className="bg-mainColor text-white p-3 rounded-lg hover:opacity-95">
             Search

@@ -25,9 +25,12 @@ export default function ListingItem({ listing }) {
             {listing.description}
           </p>
           <div className="flex gap-2 items-center">
-          <p className="text-secondaryColor text-lg font-fredoka mt-2">
-  Age: {listing.age ? `${listing.age.years} years, ${listing.age.months} months` : "Age not available"}
-</p>
+            <p className="text-secondaryColor text-lg font-fredoka mt-2">
+              Age:{" "}
+              {listing.age
+                ? `${listing.age.years} y. ${listing.age.months} m.`
+                : "Age not available"}
+            </p>
             {listing.gender === "male" ? (
               <p className="bg-blue-400 text-white text-center p-1 rounded-md ">
                 Male

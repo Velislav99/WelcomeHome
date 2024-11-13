@@ -74,6 +74,7 @@ export const getListings = async (req, res, next) => {
     }
 
     const searchTerm = req.query.searchTerm || "";
+    const type = req.query.type || "";
     const sort = req.query.sort || "createdAt";
     const order = req.query.order || "desc";
 
@@ -85,6 +86,7 @@ export const getListings = async (req, res, next) => {
       ],
       vaccinations,
       gender,
+      type: { $regex: type, $options: "i" }
     };
 
     let listings;

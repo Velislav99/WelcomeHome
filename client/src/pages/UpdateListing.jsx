@@ -22,6 +22,7 @@ export default function UpdateListing() {
     address: "",
     age: { years: "", months: "" }, // Update here
     breed: "",
+    type: "",
     gender: "male",
     vaccinations: false,
   });
@@ -186,6 +187,15 @@ export default function UpdateListing() {
               onChange={handleChange}
               value={formData.address}
             />
+            <input
+                type="text"
+                placeholder="Type"
+                className="border border-secondaryColor shadow-sm shadow-gray-500 p-3 rounded-lg flex-1 "
+                id="type"
+                required
+                onChange={handleChange}
+                value={formData.type}
+              />
 
             <div className="flex flex-wrap sm:flex-row gap-3 ">
             <div className="flex flex-wrap sm:flex-row gap-3">

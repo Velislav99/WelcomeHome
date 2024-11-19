@@ -85,7 +85,7 @@ export default function Home() {
       )}
 
       {/* Information Section */}
-      <div className="max-w-7xl mx-auto p-3 justify-center text-center">
+      <div className=" mx-auto p-3 justify-center text-center m-20">
         <h1 className="text-4xl font-fredoka text-mainColor">
           Your journey to pet adoption starts here
         </h1>
@@ -95,7 +95,7 @@ export default function Home() {
         </p>
       </div>
       <div className="flex md:flex-row flex-col justify-center items-center">
-        <div className="flex flex-col justify-center items-center text-center p-4 w-1/2">
+        <div className="flex flex-col justify-center items-center text-center p-4 ">
           <img src={logo} alt="Logo" className="h-10 w-10 mr-2" />
           <h1 className="text-center text-mainColor font-fredoka text-2xl">
             Adoption Assistance
@@ -114,7 +114,7 @@ export default function Home() {
           </p>
         </div>
         <img src={logo} alt="" className="h-[200px] md:h-[400px]" />
-        <div className="flex flex-col justify-center items-center text-center p-4 w-1/2">
+        <div className="flex flex-col justify-center items-center text-center p-4 ">
           <img src={logo} alt="Logo" className="h-10 w-10" />
           <h1 className="text-center text-mainColor font-fredoka text-2xl">
             Support our mission
